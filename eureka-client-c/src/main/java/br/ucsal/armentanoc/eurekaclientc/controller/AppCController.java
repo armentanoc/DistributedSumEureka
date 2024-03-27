@@ -5,30 +5,38 @@ import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Applications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @RestController
-public class HealthCheckController {
+public class AppCController {
     @Autowired
     @Lazy
     private EurekaClient eurekaClient;
 
     @Value("${spring.application.name}")
     private String appName;
+    
+    @GetMapping("/randomNumber")
+    public double getRandomNumber() {
+        Double number = new Random().nextDouble(1, 100);
+        System.out.println("Número aleatório gerado na App C: "+number);
+        return number;
+    }
 
-    @GetMapping("/health")
+///////////////////////////////////////////////////////////////
+    
+@GetMapping("/health")
     public String healthy() {
         return "Estou vivo e bem! Sou a app "+appName+" - " + LocalDateTime.now();
     }
